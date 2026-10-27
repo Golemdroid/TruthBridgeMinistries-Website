@@ -1,0 +1,10 @@
+# Used for local development only (`npx wrangler pages dev`).
+# In production, the D1 binding and secrets are set in the Cloudflare dashboard (see README).
+name = "truthbridge"
+pages_build_output_dir = "public"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "truthbridge-requests"
+database_id = "local-dev"
