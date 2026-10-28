@@ -1,4 +1,4 @@
-# TruthBridge Ministries — truthbridgeministries.org
+# Truth Bridge Ministries — truthbridgeministries.org
 
 Website where anyone in Canada can request a free Bible by mail.
 

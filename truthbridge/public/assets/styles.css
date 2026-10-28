@@ -1,4 +1,4 @@
-/* TruthBridge Ministries — colours taken from the logo: navy #072848, gold #e3a947.
+/* Truth Bridge Ministries — colours taken from the logo: navy #072848, gold #e3a947.
    Fonts: Cinzel for the wordmark only (matches the logo), Plus Jakarta Sans for everything else. */
 :root {
   color-scheme: light;
@@ -195,11 +195,15 @@ textarea { min-height: 96px; resize: vertical; }
 .band h2 { color: #fff; }
 .band .lede { color: var(--band-soft); }
 .band .eyebrow { background: rgba(227, 169, 71, .14); color: var(--gold); }
-.showcase .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: center; }
-@media (max-width: 860px) { .showcase .wrap { grid-template-columns: 1fr; gap: 32px; } }
-.bible-art { position: relative; text-align: center; }
-.bible-art::before { content: ""; position: absolute; inset: 10% 15%; background: radial-gradient(closest-side, rgba(227, 169, 71, .28), transparent); }
-.bible-art svg { position: relative; width: 100%; max-width: 300px; height: auto; }
+.band strong { color: #fff; }
+.showcase-head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: end; margin-bottom: 48px; }
+@media (max-width: 860px) { .showcase-head { grid-template-columns: 1fr; gap: 8px; } }
+/* Column widths match the photos' shapes (4:5, 4:5, 32:25) so all three sit at the same height. */
+.bible-gallery { display: grid; grid-template-columns: .8fr .8fr 1.28fr; gap: 16px; }
+@media (max-width: 760px) { .bible-gallery { grid-template-columns: 1fr 1fr; } .bible-gallery figure:last-child { grid-column: 1 / -1; } }
+.bible-gallery figure { margin: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 24px 48px -24px rgba(0, 0, 0, .55); }
+.bible-gallery img { display: block; width: 100%; height: auto; transition: transform .4s; }
+.bible-gallery figure:hover img { transform: scale(1.03); }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .tag { border: 1px solid rgba(255, 255, 255, .18); border-radius: 999px; padding: 5px 14px; font-size: .85rem; color: var(--band-ink); }
 .tag.strong { border-color: var(--gold); color: var(--gold); font-weight: 600; }
@@ -277,3 +281,4 @@ textarea { min-height: 96px; resize: vertical; }
 .prose { max-width: 760px; margin: 0 auto; padding: 64px 20px 96px; }
 .prose h2 { font-size: 1.4rem; margin-top: 1.8em; }
 .prose p { color: var(--ink-soft); }
+.showcase-head .verse { margin: 0; }
