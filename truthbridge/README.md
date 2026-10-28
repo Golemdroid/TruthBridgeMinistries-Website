@@ -43,6 +43,7 @@ In the Pages project → **Settings**:
    - `ADMIN_TOKEN` — the volunteer password for `/admin` (use a long one, 16+ characters)
    - `IP_SALT` — any random text (used to anonymise IP addresses for rate limiting)
    - `MONTHLY_LIMIT` (plain variable, optional) — how many Bibles you can send per month. Defaults to `20`; set `0` to pause requests. When the month is full, the form is replaced by a "requests full" notice until the 1st of next month. Cancelled requests don't count, so cancelling a duplicate frees up a slot.
+   - `BIBLE_COST` and `SHIPPING_COST` (plain variables, optional) — cost per Bible and average shipping per Bible in dollars (e.g. `3.76`). Shown on the Impact dashboard; leave unset to show "—". The other impact figures (shipped, provinces, days to ship) are calculated from the database automatically. Until the database is connected, the dashboard shows sample figures labelled as such.
 3. Go to **Deployments** and **Retry deployment** on the latest one so the settings take effect.
 
 ### 4. Point your domain at the site

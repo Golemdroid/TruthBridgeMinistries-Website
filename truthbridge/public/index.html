@@ -216,18 +216,38 @@
     </div>
   </section>
 
-  <!-- 4. Impact dashboard (placeholder until details are ready) -->
+  <!-- 4. Impact dashboard (impact.js fills it from /api/impact, or sample figures until the database is connected) -->
   <section id="impact" class="alt">
-    <div class="wrap">
+    <div class="wrap" id="impact-dashboard">
       <div class="section-head">
         <p class="eyebrow">Impact</p>
         <h2>See where Bibles have gone.</h2>
-        <p class="lede">Maps and province totals of every Bible we've sent.</p>
+        <p class="lede">Every Bible we ship, by province and territory — with what it costs and how long it takes.</p>
+        <p class="sample-note" id="impact-sample" hidden>Sample figures — live totals will appear once the request database is connected.</p>
       </div>
-      <div class="impact-placeholder">
-        <strong>Impact dashboard</strong>
-        <span>Coming soon</span>
+
+      <div class="kpis">
+        <div class="kpi kpi-lead" data-kpi="shipped"><span class="kpi-label">Bibles shipped</span><span class="kpi-value">—</span><span class="kpi-note"></span></div>
+        <div class="kpi" data-kpi="reached"><span class="kpi-label">Reached</span><span class="kpi-value">—</span><span class="kpi-note"></span></div>
+        <div class="kpi" data-kpi="bible"><span class="kpi-label">Bible cost</span><span class="kpi-value">—</span><span class="kpi-note"></span></div>
+        <div class="kpi" data-kpi="shipping"><span class="kpi-label">Shipping</span><span class="kpi-value">—</span><span class="kpi-note"></span></div>
+        <div class="kpi" data-kpi="days"><span class="kpi-label">Fulfillment</span><span class="kpi-value">—</span><span class="kpi-note"></span></div>
       </div>
+
+      <div class="impact-panel">
+        <div class="impact-map-wrap">
+          <div id="impact-map" class="impact-map" aria-busy="true">Loading map of Canada…</div>
+          <div class="map-legend" aria-hidden="true">
+            <span><i class="b0"></i>0</span><span><i class="b1"></i>1–5</span><span><i class="b2"></i>6–20</span><span><i class="b3"></i>21–50</span><span><i class="b4"></i>51+</span>
+          </div>
+        </div>
+        <div class="impact-side">
+          <h3>Province leaderboard</h3>
+          <p class="impact-selected" id="impact-selected" aria-live="polite">Select a province or territory on the map or in the list.</p>
+          <ol class="board" id="impact-board"></ol>
+        </div>
+      </div>
+      <p class="impact-foot">Regions with no shipments stay on the map for transparency. Map outlines adapted from <a href="https://github.com/VictorCazanave/svg-maps/tree/master/packages/canada" rel="noopener">@svg-maps/canada</a> (CC BY 4.0).</p>
     </div>
   </section>
 
@@ -310,5 +330,6 @@
 </footer>
 
 <script src="/assets/app.js" defer></script>
+<script src="/assets/impact.js" defer></script>
 </body>
 </html>
