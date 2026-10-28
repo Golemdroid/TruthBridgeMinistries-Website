@@ -10,6 +10,7 @@
   <meta property="og:description" content="Request a free Bible, mailed to your door anywhere in Canada.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://truthbridgeministries.org/">
+  <script src="/assets/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -25,6 +26,7 @@
       <span>TruthBridge Ministries</span>
     </a>
     <nav class="nav" aria-label="Main">
+      <a href="#bible">The Bible</a>
       <a href="#how">How it works</a>
       <a href="#faq">Questions</a>
       <a href="#request" class="nav-cta">Request a Bible</a>
@@ -33,59 +35,31 @@
 </header>
 
 <main>
-  <section class="hero">
-    <div class="wrap">
-      <div>
-        <p class="eyebrow">Free · Anywhere in Canada</p>
-        <h1>A free Bible, mailed to your door.</h1>
-        <p class="lede">Whether you're curious, searching, or have walked with God for years, we'd love to send you a Bible of your own — at no cost, and with no strings attached.</p>
-        <div class="hero-actions">
-          <a class="btn" href="#request">Request your free Bible</a>
-          <a class="btn btn-ghost" href="#how">How it works</a>
-        </div>
-        <blockquote class="verse">
-          “Thy word is a lamp unto my feet, and a light unto my path.”
-          <cite>Psalm 119:105</cite>
-        </blockquote>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="cover" x1="0" x2="1">
-              <stop offset="0" stop-color="#6f2c20"/><stop offset="1" stop-color="#8a3b2b"/>
-            </linearGradient>
-          </defs>
-          <ellipse cx="160" cy="268" rx="120" ry="14" fill="#e6dac3"/>
-          <rect x="70" y="40" width="180" height="225" rx="10" fill="url(#cover)"/>
-          <rect x="70" y="40" width="18" height="225" rx="6" fill="#5a2218"/>
-          <rect x="246" y="48" width="8" height="210" rx="3" fill="#f6efe0"/>
-          <path d="M168 92 V178 M140 118 H196" stroke="#e0b46a" stroke-width="9" stroke-linecap="round"/>
-          <text x="168" y="222" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#e0b46a" letter-spacing="4">HOLY BIBLE</text>
-          <path d="M228 265 L228 290 L236 282 L244 290 L244 265" fill="#b8893a"/>
-        </svg>
-      </div>
+  <!-- 1. Intro -->
+  <section class="intro">
+    <div class="wrap center">
+      <p class="eyebrow">Outreach</p>
+      <h1>A free Bible, mailed to Canadian homes.</h1>
+      <p class="lede">It's free — no purchase, no catch. If you give us your email, we use it only for shipping updates and to prevent duplicate requests. We'll never add you to a marketing list.</p>
     </div>
   </section>
 
-  <section id="how">
+  <!-- 2. Status notice + request form (app.js switches these to the "full" state when the monthly cap is reached) -->
+  <section id="request" class="request">
     <div class="wrap">
-      <p class="eyebrow">How it works</p>
-      <h2>Three simple steps</h2>
-      <div class="steps">
-        <div class="step"><h3>Fill in the form</h3><p>Tell us your name and Canadian mailing address. It takes about a minute.</p></div>
-        <div class="step"><h3>We pack it with care</h3><p>Our volunteers prepare your Bible and send it by Canada Post.</p></div>
-        <div class="step"><h3>It arrives — free</h3><p>No payment, no subscription, no follow-up unless you ask for it.</p></div>
+      <div class="notice" id="notice" role="status">
+        <span class="dot" aria-hidden="true"></span>
+        <div id="notice-text"><strong>Requests are open</strong>We send up to <span data-limit>20</span> free Bibles each month. Requests are processed within 1–2 weeks.</div>
       </div>
-    </div>
-  </section>
-
-  <section id="request" class="alt">
-    <div class="wrap">
-      <p class="eyebrow" style="text-align:center">Request form</p>
-      <h2 style="text-align:center">Request your free Bible</h2>
-      <p style="text-align:center;color:var(--ink-soft);max-width:56ch;margin:0 auto">We currently mail to addresses in Canada only. Your information is used only to send your Bible.</p>
 
       <div class="form-card">
+        <div id="closed-panel" class="closed-panel" hidden>
+          <h3>This month's requests are full</h3>
+          <p>We've reached our limit of <span data-limit>20</span> free Bibles for this month. Requests reopen on <strong data-reopens>the 1st of next month</strong> — please check back then.</p>
+          <p>Want to help us send more Bibles each month? Gifts help cover printing and postage.</p>
+          <a class="btn btn-ghost" href="mailto:contact@truthbridgeministries.org?subject=Supporting%20TruthBridge%20Ministries">Support the ministry</a>
+        </div>
+
         <form id="bible-form" novalidate>
           <fieldset>
             <legend>About you</legend>
@@ -143,13 +117,6 @@
                 <label for="postal">Postal code</label>
                 <input id="postal" name="postal" autocomplete="postal-code" required maxlength="7" placeholder="A1A 1A1" style="text-transform:uppercase">
               </div>
-              <div>
-                <label for="language">Bible language</label>
-                <select id="language" name="language" required>
-                  <option value="English">English</option>
-                  <option value="French">Français</option>
-                </select>
-              </div>
             </div>
           </fieldset>
 
@@ -187,23 +154,98 @@
 
         <div id="success" class="success" hidden>
           <h3>Thank you — your request is in!</h3>
-          <p>We'll prepare your Bible and mail it to you soon. Delivery within Canada usually takes 2–3 weeks.</p>
+          <p>Requests are processed within 1–2 weeks.</p>
           <p style="font-family:var(--serif);font-style:italic;font-size:1.15rem">“And ye shall know the truth, and the truth shall make you free.” — John 8:32</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- 3. Bible showcase -->
+  <section id="bible" class="showcase alt">
+    <div class="wrap">
+      <div class="bible-card" aria-hidden="true">
+        <svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="cover" x1="0" x2="1">
+              <stop offset="0" stop-color="#6f2c20"/><stop offset="1" stop-color="#8a3b2b"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="160" cy="268" rx="120" ry="14" fill="#000" opacity=".12"/>
+          <rect x="70" y="40" width="180" height="225" rx="10" fill="url(#cover)"/>
+          <rect x="70" y="40" width="18" height="225" rx="6" fill="#5a2218"/>
+          <rect x="246" y="48" width="8" height="210" rx="3" fill="#f6efe0"/>
+          <path d="M168 92 V178 M140 118 H196" stroke="#e0b46a" stroke-width="9" stroke-linecap="round"/>
+          <text x="168" y="222" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#e0b46a" letter-spacing="4">HOLY BIBLE</text>
+          <path d="M228 265 L228 290 L236 282 L244 290 L244 265" fill="#b8893a"/>
+        </svg>
+        <div class="tags">
+          <span class="tag strong">HOLY BIBLE</span>
+          <span class="tag">English</span>
+          <span class="tag">Yours to keep</span>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow">The Bible</p>
+        <h2>A complete Bible of your own</h2>
+        <p class="lede">Every request receives a full Bible, Old and New Testaments, in English. Our volunteers pack each one with care.</p>
+        <blockquote class="verse">
+          “Thy word is a lamp unto my feet, and a light unto my path.”
+          <cite>Psalm 119:105</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. How it works -->
+  <section id="how">
+    <div class="wrap">
+      <p class="eyebrow">How it works</p>
+      <h2>Three simple steps</h2>
+      <div class="steps">
+        <div class="step"><h3>Share your address</h3><p>Tell us your name and Canadian mailing address. Email is optional.</p></div>
+        <div class="step"><h3>We ship it</h3><p>Our volunteers pack your Bible and ship it from the queue while requests are open.</p></div>
+        <div class="step"><h3>It arrives</h3><p>Your Bible comes to your door by mail — free, and yours to keep.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Impact dashboard (placeholder until details are ready) -->
+  <section id="impact" class="alt">
+    <div class="wrap">
+      <p class="eyebrow">Impact</p>
+      <h2>See where Bibles have gone.</h2>
+      <p class="lede">Maps and province totals of every Bible we've sent.</p>
+      <div class="impact-placeholder">
+        <strong>Impact dashboard</strong>
+        <span>Coming soon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. FAQ -->
   <section id="faq">
-    <div class="wrap" style="max-width:820px">
+    <div class="wrap narrow">
       <p class="eyebrow">Questions</p>
       <h2>Frequently asked</h2>
       <div class="faq">
-        <details><summary>Is it really free?</summary><p>Yes. There's no cost to you, including shipping. Our ministry is supported by the generosity of people who want God's Word in every Canadian home.</p></details>
-        <details><summary>Who can request a Bible?</summary><p>Anyone with a mailing address in Canada. We ask for one Bible per household so we can reach as many people as possible.</p></details>
-        <details><summary>How long will it take to arrive?</summary><p>Most Bibles arrive within 2–3 weeks. Remote and northern communities can take a little longer.</p></details>
+        <details><summary>Is this really free?</summary><p>Yes — for any mailing address in Canada, including shipping, while monthly capacity and funding allow. Our ministry is supported by the generosity of people who want God's Word in every Canadian home.</p></details>
+        <details><summary>How long until my Bible arrives?</summary><p>Requests are processed within 1–2 weeks.</p></details>
+        <details><summary>Can I request more than one?</summary><p>No. We send one Bible per person so we can reach as many people as possible.</p></details>
+        <details><summary>Why is there a monthly limit?</summary><p>It keeps the ministry funded and sustainable. We currently send up to <span data-limit>20</span> Bibles each month. When the month is full, requests reopen on the 1st.</p></details>
         <details><summary>Will you contact me or add me to a mailing list?</summary><p>No. We only use your details to send your Bible (and a shipping note if you gave an email). We never sell or share your information.</p></details>
         <details><summary>Can I request a Bible for someone else?</summary><p>Yes — please enter their name and address, and make sure they'd be happy to receive it.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Closing banner -->
+  <section class="closing alt">
+    <div class="wrap">
+      <div class="closing-card">
+        <h2 id="closing-title">Ready for a Bible of your own?</h2>
+        <p>One Bible per person. Requests are processed within 1–2 weeks.</p>
+        <a class="btn" href="#request" id="closing-btn">Request your free Bible</a>
       </div>
     </div>
   </section>
@@ -211,8 +253,42 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <div>© <span id="year"></span> TruthBridge Ministries · Canada</div>
-    <div><a href="/privacy">Privacy</a> · <a href="mailto:info@truthbridgeministries.org">info@truthbridgeministries.org</a></div>
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="/"><img src="/assets/logo.svg" alt="" width="32" height="32"><span>TruthBridge Ministries</span></a>
+        <p>Mailing free Bibles to homes across Canada.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Free Bible</h4>
+        <ul>
+          <li><a href="#request">Request a Bible</a></li>
+          <li><a href="#bible">The Bible</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#impact">Impact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ministry</h4>
+        <ul>
+          <li><a href="#faq">Questions</a></li>
+          <li><a href="mailto:contact@truthbridgeministries.org">Contact us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy">Privacy policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© <span id="year"></span> TruthBridge Ministries · Canada</div>
+      <div class="theme-toggle" role="group" aria-label="Appearance">
+        <button type="button" data-theme-choice="light">Light</button>
+        <button type="button" data-theme-choice="dark">Dark</button>
+        <button type="button" data-theme-choice="system">System</button>
+      </div>
+    </div>
   </div>
 </footer>
 

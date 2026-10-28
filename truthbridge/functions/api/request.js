@@ -1,6 +1,7 @@
 // POST /api/request — saves a free Bible request.
+import { capacity } from "../../lib/capacity.js";
+
 const PROVINCES = new Set(["AB","BC","MB","NB","NL","NS","NT","NU","ON","PE","QC","SK","YT"]);
-const LANGUAGES = new Set(["English", "French"]);
 const POSTAL = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z] ?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_PER_IP_PER_DAY = 5;
@@ -37,6 +38,15 @@ export async function onRequestPost({ request, env }) {
   // Honeypot: bots fill hidden fields. Pretend success.
   if (data.website) return Response.json({ ok: true });
 
+  // Monthly cap — checked before anything else touches the database.
+  const cap = await capacity(env);
+  if (!cap.open) {
+    return Response.json(
+      { error: "This month's free Bible requests are full. Please try again next month.", full: true, reopens: cap.reopens },
+      { status: 429 }
+    );
+  }
+
   const ip = request.headers.get("CF-Connecting-IP") || "";
 
   if (env.TURNSTILE_SECRET) {
@@ -53,7 +63,7 @@ export async function onRequestPost({ request, env }) {
     city: clean(data.city, 100),
     province: clean(data.province, 2).toUpperCase(),
     postal: clean(data.postal, 7).toUpperCase().replace(/\s/g, ""),
-    language: clean(data.language, 20) || "English",
+    language: "English", // only English Bibles are sent
     heard: clean(data.heard, 200),
     message: typeof data.message === "string" ? data.message.trim().slice(0, 2000) : "",
   };
@@ -62,7 +72,6 @@ export async function onRequestPost({ request, env }) {
   if (!PROVINCES.has(r.province)) return err("Please choose your province or territory.");
   if (!POSTAL.test(r.postal)) return err("Please enter a valid Canadian postal code.");
   if (r.email && !EMAIL.test(r.email)) return err("That email address doesn't look right.");
-  if (!LANGUAGES.has(r.language)) r.language = "English";
   if (data.consent !== true && data.consent !== "on" && data.consent !== "true") {
     return err("Please agree to the privacy policy so we can mail your Bible.");
   }
@@ -77,7 +86,18 @@ export async function onRequestPost({ request, env }) {
     if (n >= MAX_PER_IP_PER_DAY) return err("We've received several requests from your connection today. Please try again tomorrow.", 429);
   }
 
-  // Flag (but still accept) a likely duplicate household in the last 12 months.
+  // One Bible per person: refuse a repeat from the same email, or the same name at the same address.
+  const repeat = await env.DB.prepare(
+    `SELECT id FROM requests
+     WHERE status != 'cancelled'
+       AND ((? != '' AND email = ?) OR (postal = ? AND lower(address1) = lower(?) AND lower(name) = lower(?)))
+     LIMIT 1`
+  ).bind(r.email, r.email, r.postal, r.address1, r.name).first();
+  if (repeat) {
+    return err("Our records show you've already requested a Bible — we send one per person. If you think this is a mistake, please email contact@truthbridgeministries.org.", 409);
+  }
+
+  // Flag (but still accept) someone else at an address that requested in the last 12 months.
   const dup = await env.DB.prepare(
     `SELECT id FROM requests
      WHERE postal = ? AND lower(address1) = lower(?) AND status != 'cancelled'

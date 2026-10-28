@@ -42,6 +42,7 @@ In the Pages project → **Settings**:
 2. **Variables and Secrets → Add** (type **Secret**):
    - `ADMIN_TOKEN` — the volunteer password for `/admin` (use a long one, 16+ characters)
    - `IP_SALT` — any random text (used to anonymise IP addresses for rate limiting)
+   - `MONTHLY_LIMIT` (plain variable, optional) — how many Bibles you can send per month. Defaults to `20`; set `0` to pause requests. When the month is full, the form is replaced by a "requests full" notice until the 1st of next month. Cancelled requests don't count, so cancelling a duplicate frees up a slot.
 3. Go to **Deployments** and **Retry deployment** on the latest one so the settings take effect.
 
 ### 4. Point your domain at the site
@@ -61,14 +62,14 @@ Pages project → **Custom domains → Set up a custom domain** → `truthbridge
 
 ## Day-to-day use
 1. Go to `https://truthbridgeministries.org/admin` and sign in with the `ADMIN_TOKEN` password.
-2. The **New** tab shows requests waiting to be sent. Repeat requests from the same address within 12 months are flagged in red.
+2. The **New** tab shows requests waiting to be sent. The site refuses a second request from the same email, or the same name at the same address. A different person at an address that already requested in the last 12 months is accepted but flagged in red.
 3. **Download CSV** to print labels (works with Avery mail-merge or Canada Post's bulk upload).
 4. Tick the requests you've mailed → **Mark selected shipped**.
 
 ## Making changes
 Edit files on GitHub (or locally and push). Every push to `main` redeploys the site automatically within a minute. Pull requests get their own preview link.
 
-To change the contact email, search for `info@truthbridgeministries.org` in `public/`.
+To change the contact email, search for `contact@truthbridgeministries.org` in `public/`.
 
 ## Running locally (optional)
 ```bash
